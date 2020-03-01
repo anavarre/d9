@@ -1,6 +1,6 @@
-# d9
+# Drupal 9 installer
 
-## Install
+## Setup
 
 Simply create the following Bash alias to invoke the script from anywhere.
 
