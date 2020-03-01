@@ -14,7 +14,7 @@ group.add_argument(
     "--install", action="store_true", help="Spin up a new Lando app and install Drupal"
 )
 group.add_argument(
-    "--wipe", action="store_true", help="Reset Git repo and destroy Lando app"
+    "--wipe", action="store_true", help="Reset the Git repo and destroy all Lando containers"
 )
 
 args = parser.parse_args()
@@ -48,7 +48,7 @@ def check_drupal_version():
 
 
 def check_git_repo():
-    """Only continue if we're working against a Git repository."""
+    """Check that we're working against a Git repository."""
 
     git_repo = os.getcwd() + "/.git"
 
@@ -62,9 +62,9 @@ def check_git_repo():
 def pull_dependencies():
     """Pull Composer dependencies."""
 
-    path = os.getcwd() + "/composer.json"
+    composer_json = os.getcwd() + "/composer.json"
 
-    if os.path.isfile(path):
+    if os.path.isfile(composer_json):
         print("===> composer.json detected")
     else:
         print("ERROR: There doesn't seem to be a composer.json file. Aborting.")
@@ -80,7 +80,7 @@ def pull_dependencies():
 def create_lando_file():
     """Create a Lando configuration file optimized for Drupal 9."""
 
-    path = os.getcwd() + "/.lando.yml"
+    lando_yml = os.getcwd() + "/.lando.yml"
     contents = """name: drupal9
 recipe: drupal8
 config:
@@ -89,9 +89,9 @@ config:
   mysql: 5.7
 """
 
-    if not os.path.isfile(path):
+    if not os.path.isfile(lando_yml):
         print("===> Creating Lando configuration file (PHP 7.3 / MySQL 5.7)")
-        with open(path, "w") as f:
+        with open(lando_yml, "w") as f:
             f.write(contents)
     else:
         print("===> Lando configuration file already exists")
@@ -176,7 +176,7 @@ def drupal_cleanup():
 
 
 def git_cleanup():
-    """Ensure the Git repo is entirely cleaned up with the latest commit in HEAD."""
+    """Ensure the Git repo is entirely cleaned up and we're at the tip of the branch."""
 
     print("===> Pulling latest changes")
     call(["git", "clean", "-fdx"])
@@ -185,10 +185,10 @@ def git_cleanup():
 
 
 def cleanup_operations():
-    """Come back to a clean Git repository."""
+    """Ensure we're back to a clean repo and there's no leftover from our app."""
 
     warning = input(
-        "WARNING: This will reset your Git repo and pull the latest commit in HEAD. Are you sure? (y/n) "
+        "WARNING: This will reset your Git repo and pull the latest commit at the tip of your branch. Are you sure? (y/n) "
     )
 
     if not warning:
