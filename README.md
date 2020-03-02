@@ -12,7 +12,7 @@ Make sure the following executables are available in your system:
 Make sure you're only running this script against a compatible Drupal 9 branch (e.g. `9.0.x`). In doubt, clone the preferred branch like so:
 
 ```
-$ git clone --branch 9.0.x https://git.drupalcode.org/project/drupal.git
+git clone --branch 9.0.x https://git.drupalcode.org/project/drupal.git
 ```
 
 ## Setup
@@ -56,4 +56,4 @@ Note: `sudo` is required for the `--wipe` parameter.
 
 The site is accessible at https://drupal9.lndo.site and the credentials you need are `admin`/`admin`.
 
-Your browser will warn of an untrusted SSL certificate. This is normal and expected (there's no certificate validation locally). Just approve the exception.
+Your browser will warn of an untrusted SSL certificate. This is normal and expected as we don't have a self-signed certificate here. Just approve the exception.

@@ -31,6 +31,8 @@ def check_requirements():
         if not which(executable):
             print(f"ERROR: {executable} is required to run this application. Aborting.")
             sys.exit()
+        else:
+            print("===> All requirements are satisfied. Proceeding.")
 
 
 def check_drupal_version():
@@ -146,6 +148,7 @@ def install_drupal():
             f"--db-url=mysql://{creds}:{creds}@database:{port}/{creds}",
             "--account-name=admin",
             "--account-pass=admin",
+            "--site-name=Drupal 9",
             "-y",
         ]
     )
