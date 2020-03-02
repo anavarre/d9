@@ -32,7 +32,7 @@ def check_requirements():
             print(f"ERROR: {executable} is required to run this application. Aborting.")
             sys.exit()
         else:
-            print("===> All requirements are satisfied. Proceeding.")
+            print(f"===> {executable} detected")
 
 
 def check_drupal_version():
