@@ -38,12 +38,15 @@ def check_drupal_version():
 
     drupal_version = os.getcwd() + "/core/lib/Drupal.php"
 
-    try:
-        with open(drupal_version) as f:
-            "const VERSION = '9.0.0-dev';" in f.read()
-            print("===> Drupal 9 codebase detected")
-    except:
-        print("ERROR: This doesn't seem to be a Drupal 9 codebase. Aborting.")
+    if os.path.isfile(drupal_version):
+      with open(drupal_version) as f:
+          if "const VERSION = '9" in f.read():
+              print("===> Drupal 9 codebase detected")
+          else:
+              print("ERROR: This doesn't seem to be a Drupal 9 codebase. Aborting.")
+              sys.exit()
+    else:
+        print(f"ERROR: The /core/lib/Drupal.php file doesn't seem to exist. Aborting.")
         sys.exit()
 
 
@@ -165,14 +168,14 @@ def drupal_cleanup():
         print(f"===> Delete {vendor} directory")
         rmtree(os.getcwd() + "/vendor")
     else:
-        print(f"INFO: The {vendor} path doesn't exist. Skipping.")
+        print(f"INFO: The {os.path.basename(vendor)} directory doesn't exist. Skipping.")
 
     if os.path.isdir(default):
         print(f"===> Delete {default} directory")
         # We can't use rmtree here because of read-only permissions.
         call(["sudo", "rm", "-Rf", default])
     else:
-        print(f"INFO: The {default} path doesn't exist. Skipping.")
+        print(f"INFO: The {os.path.basename(default)} directory doesn't exist. Skipping.")
 
 
 def git_cleanup():
