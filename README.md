@@ -1,12 +1,27 @@
 # Drupal 9 installer
 
+## Prerequisites
+
+Make sure the following executables are available in your system:
+
+* `docker`
+* `lando`
+* `composer`
+* `sudo`
+
+Make sure you're only running this script against a compatible Drupal 9 branch (e.g. `9.0.x`). In doubt, clone the preferred branch like so:
+
+```
+$ git clone --branch 9.0.x https://git.drupalcode.org/project/drupal.git
+```
+
 ## Setup
 
-### Method 1: Add it to your PATH
+### Method 1: Add the script to your PATH
 
 Copy the `d9.py` file under e.g. `/usr/local/bin/d9` to invoke it from anywhere.
 
-### Method 2: use your .bash_aliases file
+### Method 2: create an alias in your .bash_aliases file
 
 Alternatively, simply create the following Bash alias in your `.bash_aliases` file to invoke the script from anywhere.
 
@@ -39,6 +54,6 @@ Note: `sudo` is required for the `--wipe` parameter.
 
 ## Useful info
 
-The site is accessible at https://drupal9.lndo.site and the credentials you need are admin/admin.
+The site is accessible at https://drupal9.lndo.site and the credentials you need are `admin`/`admin`.
 
-Your browser will warn of an untrusted SSL certificate. This is normal and expected. Just approve an exception.
+Your browser will warn of an untrusted SSL certificate. This is normal and expected (there's no certificate validation locally). Just approve the exception.

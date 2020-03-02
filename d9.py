@@ -50,6 +50,22 @@ def check_drupal_version():
         sys.exit()
 
 
+def check_git_branch():
+    """Make extra sure we're running the script against an allowed branch."""
+
+    head = os.getcwd() + "/.git/HEAD"
+
+    if os.path.isfile(head):
+      with open(head) as f:
+          if "refs/heads/9" in f.read():
+              print("===> Drupal 9 branch detected")
+          else:
+              print("ERROR: This doesn't seem to be a compatible Drupal 9 branch. Aborting.")
+              sys.exit()
+    else:
+        print(f"ERROR: We cannot determine the Git branch. Aborting.")
+        sys.exit()
+
 def check_git_repo():
     """Check that we're working against a Git repository."""
 
@@ -60,6 +76,8 @@ def check_git_repo():
     else:
         print("ERROR: This doesn't seem to be a Git repository. Aborting.")
         sys.exit()
+
+    check_git_branch()
 
 
 def pull_dependencies():
@@ -165,13 +183,13 @@ def drupal_cleanup():
     default = os.getcwd() + "/sites/default"
 
     if os.path.isdir(vendor):
-        print(f"===> Delete {vendor} directory")
+        print(f"===> Delete {os.path.basename(vendor)} directory")
         rmtree(os.getcwd() + "/vendor")
     else:
         print(f"INFO: The {os.path.basename(vendor)} directory doesn't exist. Skipping.")
 
     if os.path.isdir(default):
-        print(f"===> Delete {default} directory")
+        print(f"===> Delete {os.path.basename(default)} directory")
         # We can't use rmtree here because of read-only permissions.
         call(["sudo", "rm", "-Rf", default])
     else:
