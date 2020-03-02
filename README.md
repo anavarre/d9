@@ -2,13 +2,13 @@
 
 ## Setup
 
-### PATH
+### Method 1: Add it to your PATH
 
-Copy the file under e.g. `/usr/local/bin/d9` to invoke it from anywhere.
+Copy the `d9.py` file under e.g. `/usr/local/bin/d9` to invoke it from anywhere.
 
-### .bash_aliases
+### Method 2: use your .bash_aliases file
 
-Alternatively, simply create the following Bash alias to invoke the script from anywhere.
+Alternatively, simply create the following Bash alias in your `.bash_aliases` file to invoke the script from anywhere.
 
 ```
 alias d9='path/to/d9.py'
@@ -32,7 +32,7 @@ Drupal 9 installer
 optional arguments:
 -h, --help  show this help message and exit
 --install   Spin up a new Lando app and install Drupal
---wipe      Reset Git repo and destroy Lando app
+--wipe      Reset the Git repo and destroy all Lando containers
 ```
 
 Note: `sudo` is required for the `--wipe` parameter.
