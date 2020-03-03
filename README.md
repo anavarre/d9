@@ -54,6 +54,4 @@ Note: `sudo` is required for the `--wipe` parameter.
 
 ## Useful info
 
-The site is accessible at https://drupal9.lndo.site and the credentials you need are `admin`/`admin`.
-
-Your browser will warn of an untrusted SSL certificate. This is normal and expected as we don't have a self-signed certificate here. Just approve the exception.
+The site is accessible at http://drupal9.lndo.site:8000 and the credentials you need are `admin`/`admin`.
