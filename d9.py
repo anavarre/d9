@@ -25,29 +25,12 @@ wipe = args.wipe
 def check_requirements():
     """Check that all executables we need for this script are installed on the system."""
 
-    executables = ["sudo", "docker", "lando", "composer"]
+    executables = ["sudo", "docker", "lando"]
 
     for executable in executables:
         if not which(executable):
             print(f"ERROR: {executable} is required to run this application. Aborting.")
             sys.exit()
-
-
-def check_drupal_version():
-    """Check we're indeed installing Drupal 9."""
-
-    drupal_version = os.getcwd() + "/core/lib/Drupal.php"
-
-    if os.path.isfile(drupal_version):
-      with open(drupal_version) as f:
-          if "const VERSION = '9" in f.read():
-              print("===> Drupal 9 codebase detected")
-          else:
-              print("ERROR: This doesn't seem to be a Drupal 9 codebase. Aborting.")
-              sys.exit()
-    else:
-        print(f"ERROR: The /core/lib/Drupal.php file doesn't seem to exist. Aborting.")
-        sys.exit()
 
 
 def check_git_branch():
@@ -80,22 +63,21 @@ def check_git_repo():
     check_git_branch()
 
 
-def pull_dependencies():
-    """Pull Composer dependencies."""
+def check_drupal_version():
+    """Check we're indeed installing Drupal 9."""
 
-    composer_json = os.getcwd() + "/composer.json"
+    drupal_version = os.getcwd() + "/core/lib/Drupal.php"
 
-    if os.path.isfile(composer_json):
-        print("===> composer.json detected")
+    if os.path.isfile(drupal_version):
+      with open(drupal_version) as f:
+          if "const VERSION = '9" in f.read():
+              print("===> Drupal 9 codebase detected")
+          else:
+              print("ERROR: This doesn't seem to be a Drupal 9 codebase. Aborting.")
+              sys.exit()
     else:
-        print("ERROR: There doesn't seem to be a composer.json file. Aborting.")
+        print(f"ERROR: The /core/lib/Drupal.php file doesn't seem to exist. Aborting.")
         sys.exit()
-
-    print("===> Pulling Composer dependencies")
-    call(["composer", "install", "-q"])
-
-    print("===> Installing the latest Drush")
-    call(["composer", "require", "drush/drush", "-q"])
 
 
 def create_lando_file():
@@ -126,6 +108,24 @@ def start_app():
 
     # Wait a few seconds before installing Drupal, otherwise the database connection might fail.
     sleep(5)
+
+
+def pull_dependencies():
+    """Pull Composer dependencies."""
+
+    composer_json = os.getcwd() + "/composer.json"
+
+    if os.path.isfile(composer_json):
+        print("===> composer.json detected")
+    else:
+        print("ERROR: There doesn't seem to be a composer.json file. Aborting.")
+        sys.exit()
+
+    print("===> Pulling Composer dependencies")
+    call(["lando", "composer", "install", "-q"])
+
+    print("===> Installing the latest Drush")
+    call(["lando", "composer", "require", "drush/drush", "-q"])
 
 
 def install_drupal():
@@ -230,11 +230,11 @@ def cleanup_operations():
 
 if install:
     check_requirements()
-    check_drupal_version()
     check_git_repo()
-    pull_dependencies()
+    check_drupal_version()
     create_lando_file()
     start_app()
+    pull_dependencies()
     install_drupal()
 elif wipe:
     delete_app()
