@@ -185,7 +185,7 @@ def drupal_cleanup():
 
     if os.path.isdir(vendor):
         print(f"===> Delete {os.path.basename(vendor)} directory")
-        rmtree(os.getcwd() + "/vendor")
+        rmtree(vendor)
     else:
         print(f"INFO: The {os.path.basename(vendor)} directory doesn't exist. Skipping.")
 
