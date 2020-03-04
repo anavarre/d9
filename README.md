@@ -54,4 +54,31 @@ Note: `sudo` is required for the `--wipe` parameter.
 
 ## Useful info
 
-The site is accessible at http://drupal9.lndo.site:8000 and the credentials you need are `admin`/`admin`.
+### Accessing the site
+
+The site is accessible at http://drupal9.lndo.site - If you're running Apache or any other app binding to port 80, then Lando will try to bind to another port (e.g. `8000` or `8080`). Your options are thus to either free up port 80 (see below to find out how), use the automatically-assigned port or try one of the other Lando URLs such as https://drupal9.lndo.site (to prevent your browser from throwing a SSL warning, follow [this procedure](https://docs.lando.dev/config/security.html#trusting-the-ca))
+
+#### How to find out if port 80 is already in use?
+
+On Linux, try and use the `lsof` command to check if port 80 is already in use. Here's an example with a local Apache server (`apache2` service) that will conflict with Lando's attempt to bind on port 80 by default.
+
+```
+sudo lsof -n -i :80 | grep LISTEN
+apache2 20953     root    4u  IPv6 28849622      0t0  TCP *:http (LISTEN)
+apache2 20958 www-data    4u  IPv6 28849622      0t0  TCP *:http (LISTEN)
+apache2 20959 www-data    4u  IPv6 28849622      0t0  TCP *:http (LISTEN)
+apache2 20960 www-data    4u  IPv6 28849622      0t0  TCP *:http (LISTEN)
+apache2 20962 www-data    4u  IPv6 28849622      0t0  TCP *:http (LISTEN)
+apache2 20965 www-data    4u  IPv6 28849622      0t0  TCP *:http (LISTEN)
+```
+
+When Lando binds successfully to port 80 (via Docker), you should see something like this instead:
+
+```
+sudo lsof -n -i :80 | grep LISTEN
+docker-pr 25050     root    4u  IPv6 28900587      0t0  TCP *:http (LISTEN)
+```
+
+### Credentials
+
+Use `admin` for username and `admin` for password.

@@ -134,7 +134,7 @@ def install_drupal():
     profile = "standard"
     creds = "drupal8"
     port = "3306"
-    uri = "http://drupal9.lndo.site:8000"
+    uri = "http://drupal9.lndo.site"
 
     print("===> Installing Drupal")
     call(
