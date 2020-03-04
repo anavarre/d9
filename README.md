@@ -6,7 +6,6 @@ Make sure the following executables are available in your system:
 
 * `docker`
 * `lando`
-* `composer`
 * `sudo`
 
 Make sure you're only running this script against a compatible Drupal 9 branch (e.g. `9.0.x`). In doubt, clone the preferred branch like so:
