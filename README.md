@@ -71,6 +71,13 @@ apache2 20962 www-data    4u  IPv6 28849622      0t0  TCP *:http (LISTEN)
 apache2 20965 www-data    4u  IPv6 28849622      0t0  TCP *:http (LISTEN)
 ```
 
+If you're in this situation, you might want to stop the Apache service for this session (it will start automatically again next time you reboot) and restart your Lando app like so on Linux:
+
+```
+$ sudo service apache2 stop
+$ lando restart
+```
+
 When Lando binds successfully to port 80 (via Docker), you should see something like this instead:
 
 ```
