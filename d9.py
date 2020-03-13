@@ -84,16 +84,21 @@ def create_lando_file():
     """Create a Lando configuration file optimized for Drupal 9."""
 
     lando_yml = os.getcwd() + "/.lando.yml"
-    contents = """name: drupal9
+    php_version = "7.3"
+    mysql_version = "5.7"
+    contents = f"""name: drupal9
 recipe: drupal8
 config:
   webroot: .
-  php: 7.3
-  mysql: 5.7
+services:
+  php:
+    type: php:{php_version}
+  mysql:
+    type: mysql:{mysql_version}
 """
 
     if not os.path.isfile(lando_yml):
-        print("===> Creating Lando configuration file (PHP 7.3 / MySQL 5.7)")
+        print(f"===> Creating Lando configuration file (PHP {php_version} and MySQL {mysql_version})")
         with open(lando_yml, "w") as f:
             f.write(contents)
     else:
